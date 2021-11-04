@@ -1,7 +1,7 @@
 # Longdo Map region's overlay example
 
 This repo shows you how to overlays Thailand's region on Longdo Map.
-![Longdo Map region's overlay example](https://github.com/MetamediaTechnology/longdo-map-overlay-region/blob/main/thumbnail-region.jpg?raw=t
+![Longdo Map region's overlay example](https://github.com/MetamediaTechnology/longdo-map-overlay-region/blob/main/thumbnail-region.jpg)
 
 ## Demo
 - [Longdo Map draws region's overlay](https://mapdemo.longdo.com/map-region/)
