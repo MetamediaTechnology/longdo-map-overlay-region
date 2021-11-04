@@ -1,0 +1,133 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map Region | Longdo Map</title>
+    <style type="text/css">
+        @import url("https://fonts.googleapis.com/css2?family=Prompt:wght@400;700&display=swap");
+
+        html {
+            height: 100%;
+        }
+
+        body {
+            margin: 0px;
+            height: 100%;
+        }
+
+        #map {
+            height: 100%;
+        }
+
+        #buttonArea {
+            position: absolute;
+            right: 32px;
+            bottom: 50px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #buttonArea>a {
+            margin: 4px 0px;
+        }
+
+        .bn3637 {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px 2px;
+            font-family: "Poppins", sans-serif;
+            font-weight: 700;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            backface-visibility: hidden;
+            border: 0.3rem solid transparent;
+            border-radius: 3rem;
+            cursor: pointer;
+        }
+
+        .bn37 {
+            border-color: transparent;
+            background-color: #fff;
+            color: #000;
+            transition: transform 0.2s cubic-bezier(0.235, 0, 0.05, 0.95);
+        }
+
+        .bn37:hover {
+            transform: perspective(1px) scale3d(1.044, 1.044, 1) translateZ(0) !important;
+        }
+    </style>
+    <script type="text/javascript" src="https://api.longdo.com/map/?key="></script>
+    <script>
+        var map;
+        var region_geographical = [
+            { 'name': 'กลาง', 'color': '#ffadad80', 'geocode': '1_;26;60;61;62;64;65;66;67;72;73;74;75' },
+            { 'name': 'ใต้', 'color': '#ffd6a580', 'geocode': '80;81;82;83;84;85;86;90;91;92;93;94;95;96' },
+            { 'name': 'เหนือ', 'color': '#9bf6ff80', 'geocode': '5_' },
+            { 'name': 'ตะวันออกเฉียงเหนือ', 'color': '#bdb2ff80', 'geocode': '30;31;32;33;34;35;36;37;38;39;40;41;42;43;44;45;46' }, // ใส่ 47, 48, 49 แล้วดำ ๆ
+            { 'name': 'ตะวันตก', 'color': '#caffbf80', 'geocode': '63;70;71;76;77' },
+            { 'name': 'ตะวันออก', 'color': '#a0c4ff80', 'geocode': '20;21;22;23;24;25;27' }
+        ]
+        var region_political = [
+            { 'name': 'กลาง', 'color': '#ffadad80', 'geocode': '1_;20;21;22;23;24;25;26;27;70;71;72;73;74;75;76' }, // พอใส่ 77 แล้วดำๆ
+            { 'name': 'ใต้', 'color': '#ffd6a580', 'geocode': '80;81;82;83;84;85;86;90;91;92;93;94;95;96' },
+            { 'name': 'เหนือ', 'color': '#9bf6ff80', 'geocode': '5_;60;61;62;63;64;65;66;67' },
+            { 'name': 'ตะวันออกเฉียงเหนือ', 'color': '#caffbf80', 'geocode': '30;31;32;33;34;35;36;37;38;39;40;41;42;43;44;45;46' }, //3_;4_ // ใส่ 47, 48, 49 แล้วดำ ๆ
+        ]
+        var region_meteorological = [
+            { 'name': 'กลาง', 'color': '#ffadad80', 'geocode': '1_;60;61;72;73;74;75' },
+            { 'name': 'ใต้', 'color': '#ffd6a580', 'geocode': '80;81;82;83;84;85;86;90;91;92;93;94;95;96' },
+            { 'name': 'เหนือ', 'color': '#9bf6ff80', 'geocode': '5_;62;63;64;65;66;67' },
+            { 'name': 'ตะวันออกเฉียงเหนือ', 'color': '#bdb2ff80', 'geocode': '30;31;32;33;34;35;36;37;38;39;40;41;42;43;44;45;46' }, //3_;4_ // ใส่ 47, 48, 49 แล้วดำ ๆ
+            { 'name': 'ตะวันตก', 'color': '#caffbf80', 'geocode': '70;71;76;77' },
+            { 'name': 'ตะวันออก', 'color': '#a0c4ff80', 'geocode': '20;21;22;23;24;25;26;27' }
+        ]
+        var region_travel = [
+            { 'name': 'กลาง', 'color': '#ffadad80', 'geocode': '1_;70;71;72;73;74;75;76;77;26' },
+            { 'name': 'ใต้', 'color': '#ffd6a580', 'geocode': '80;81;82;83;84;85;86;90;91;92;93;94;95;96' },
+            { 'name': 'เหนือ', 'color': '#9bf6ff80', 'geocode': '5_;60;61;62;63;64;65;66;67;' },
+            { 'name': 'ตะวันออกเฉียงเหนือ', 'color': '#bdb2ff80', 'geocode': '30;31;32;33;34;35;36;37;38;39;40;41;42;43;44;45;46' }, //3_;4_  // ใส่ 47, 48, 49 แล้วดำ ๆ
+            { 'name': 'ตะวันออก', 'color': '#a0c4ff80', 'geocode': '20;21;22;23;24;25;27' }
+        ]
+        function init() {
+            map = new longdo.Map({
+                placeholder: document.getElementById('map')
+            });
+            map.location({ lat: 14.061718, lon: 100.545651 })
+            map.zoom(6)
+            map.enableFilter(longdo.Filter.Light)
+            createdRegion(region_geographical)
+        }
+        function createdRegion(type) {
+            map.Overlays.clear()
+            type.forEach(element => {
+                let object = new longdo.Overlays.Object(element.geocode, 'IG', {
+                    title: element.name,
+                    label: element.name,
+                    lineColor: '#000',
+                    lineWidth: 1,
+                    fillColor: element.color,
+                    combine: true
+                });
+                map.Overlays.load(object);
+            });
+        }
+    </script>
+</head>
+
+<body onload="init();">
+    <div id="map"></div>
+    <div id="buttonArea">
+        <a class="bn3637 bn37" onclick="createdRegion(region_geographical)">6 ภูมิภาค (ภูมิศาสตร์)</a>
+        <a class="bn3637 bn37" onclick="createdRegion(region_political)">4 ภูมิภาค (การเมือง)</a>
+        <a class="bn3637 bn37" onclick="createdRegion(region_meteorological)">6 ภูมิภาค
+            (อุตุนิยมวิทยา)</a>
+        <a class="bn3637 bn37" onclick="createdRegion(region_travel)">5 ภูมิภาค (การท่องเที่ยว)</a>
+    </div>
+</body>
+
+</html>
