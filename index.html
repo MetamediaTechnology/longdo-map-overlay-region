@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Map Region | Longdo Map</title>
+    <title>Thailand Region Map | Longdo Map</title>
     <style type="text/css">
         @import url("https://fonts.googleapis.com/css2?family=Prompt:wght@400;700&display=swap");
 
@@ -51,6 +51,7 @@
         }
 
         .bn37 {
+            cursor: pointer;
             border-color: transparent;
             background-color: #fff;
             color: #000;
@@ -58,40 +59,55 @@
         }
 
         .bn37:hover {
+            cursor: pointer;
             transform: perspective(1px) scale3d(1.044, 1.044, 1) translateZ(0) !important;
+        }
+
+        .active,
+        .bn3637:hover {
+            background-color: #000;
+            color: white;
+        }
+
+        /* set label style */
+        .ldmap_placeholder .ldmap_frame .ldmap_geomlabel {
+            font-size: 14px !important;
+            color: #756d6d !important;
+            box-shadow: unset !important;
+            background: none !important;
         }
     </style>
     <script type="text/javascript" src="https://api.longdo.com/map/?key="></script>
     <script>
         var map;
         var region_geographical = [
-            { 'name': 'กลาง', 'color': '#ffadad80', 'geocode': '1_;26;60;61;62;64;65;66;67;72;73;74;75' },
-            { 'name': 'ใต้', 'color': '#ffd6a580', 'geocode': '80;81;82;83;84;85;86;90;91;92;93;94;95;96' },
-            { 'name': 'เหนือ', 'color': '#9bf6ff80', 'geocode': '5_' },
-            { 'name': 'ตะวันออกเฉียงเหนือ', 'color': '#bdb2ff80', 'geocode': '30;31;32;33;34;35;36;37;38;39;40;41;42;43;44;45;46' }, // ใส่ 47, 48, 49 แล้วดำ ๆ
-            { 'name': 'ตะวันตก', 'color': '#caffbf80', 'geocode': '63;70;71;76;77' },
-            { 'name': 'ตะวันออก', 'color': '#a0c4ff80', 'geocode': '20;21;22;23;24;25;27' }
+            { 'name': 'กลาง', 'color': '#ffadadaa', 'pivot': { lat: 15.464000, lon: 100.281979 }, 'geocode': '1_;26;60;61;62;64;65;66;67;72;73;74;75' },
+            { 'name': 'ใต้', 'color': '#ffd6a5aa', 'pivot': { lat: 8.624196, lon: 98.908688 }, 'geocode': '80;81;82;83;84;85;86;90;91;92;93;94;95;96' },
+            { 'name': 'เหนือ', 'color': '#9bf6ffaa', 'pivot': { lat: 18.843649, lon: 99.556881 }, 'geocode': '5_' },
+            { 'name': 'ตะวันออกเฉียงเหนือ', 'color': '#bdb2ffaa', 'pivot': { lat: 16.182756, lon: 102.589108 }, 'geocode': '3_;4_' },
+            { 'name': 'ตะวันตก', 'color': '#caffbfaa', 'pivot': { lat: 14.476964, lon: 98.980099 }, 'geocode': '63;70;71;76;77' },
+            { 'name': 'ตะวันออก', 'color': '#a0c4ffaa', 'pivot': { lat: 13.330559, lon: 101.633297 }, 'geocode': '20;21;22;23;24;25;27' }
         ]
         var region_political = [
-            { 'name': 'กลาง', 'color': '#ffadad80', 'geocode': '1_;20;21;22;23;24;25;26;27;70;71;72;73;74;75;76' }, // พอใส่ 77 แล้วดำๆ
-            { 'name': 'ใต้', 'color': '#ffd6a580', 'geocode': '80;81;82;83;84;85;86;90;91;92;93;94;95;96' },
-            { 'name': 'เหนือ', 'color': '#9bf6ff80', 'geocode': '5_;60;61;62;63;64;65;66;67' },
-            { 'name': 'ตะวันออกเฉียงเหนือ', 'color': '#caffbf80', 'geocode': '30;31;32;33;34;35;36;37;38;39;40;41;42;43;44;45;46' }, //3_;4_ // ใส่ 47, 48, 49 แล้วดำ ๆ
+            { 'name': 'กลาง', 'color': '#ffadadaa', 'pivot': { lat: 14.173590, lon: 100.364376 }, 'geocode': '1_;20;21;22;23;24;25;26;27;70;71;72;73;74;75;76;77' },
+            { 'name': 'ใต้', 'color': '#ffd6a5aa', 'pivot': { lat: 8.624196, lon: 98.908688 }, 'geocode': '80;81;82;83;84;85;86;90;91;92;93;94;95;96' },
+            { 'name': 'เหนือ', 'color': '#9bf6ffaa', 'pivot': { lat: 17.570455, lon: 99.271237 }, 'geocode': '5_;60;61;62;63;64;65;66;67' },
+            { 'name': 'ตะวันออกเฉียงเหนือ', 'color': '#caffbfaa', 'pivot': { lat: 16.182756, lon: 102.589108 }, 'geocode': '3_;4_' },
         ]
         var region_meteorological = [
-            { 'name': 'กลาง', 'color': '#ffadad80', 'geocode': '1_;60;61;72;73;74;75' },
-            { 'name': 'ใต้', 'color': '#ffd6a580', 'geocode': '80;81;82;83;84;85;86;90;91;92;93;94;95;96' },
-            { 'name': 'เหนือ', 'color': '#9bf6ff80', 'geocode': '5_;62;63;64;65;66;67' },
-            { 'name': 'ตะวันออกเฉียงเหนือ', 'color': '#bdb2ff80', 'geocode': '30;31;32;33;34;35;36;37;38;39;40;41;42;43;44;45;46' }, //3_;4_ // ใส่ 47, 48, 49 แล้วดำ ๆ
-            { 'name': 'ตะวันตก', 'color': '#caffbf80', 'geocode': '70;71;76;77' },
-            { 'name': 'ตะวันออก', 'color': '#a0c4ff80', 'geocode': '20;21;22;23;24;25;26;27' }
+            { 'name': 'กลาง', 'color': '#ffadadaa', 'pivot': { lat: 14.657728, lon: 100.194088 }, 'geocode': '1_;60;61;72;73;74;75' },
+            { 'name': 'ใต้', 'color': '#ffd6a5aa', 'pivot': { lat: 8.624196, lon: 98.908688 }, 'geocode': '80;81;82;83;84;85;86;90;91;92;93;94;95;96' },
+            { 'name': 'เหนือ', 'color': '#9bf6ffaa', 'pivot': { lat: 17.570455, lon: 99.271237 }, 'geocode': '5_;62;63;64;65;66;67' },
+            { 'name': 'ตะวันออกเฉียงเหนือ', 'color': '#bdb2ffaa', 'pivot': { lat: 16.182756, lon: 102.589108 }, 'geocode': '3_;4_' },
+            { 'name': 'ตะวันตก', 'color': '#caffbfaa', 'pivot': { lat: 14.476964, lon: 98.980099 }, 'geocode': '70;71;76;77' },
+            { 'name': 'ตะวันออก', 'color': '#a0c4ffaa', 'pivot': { lat: 13.330559, lon: 101.633297 }, 'geocode': '20;21;22;23;24;25;26;27' }
         ]
         var region_travel = [
-            { 'name': 'กลาง', 'color': '#ffadad80', 'geocode': '1_;70;71;72;73;74;75;76;77;26' },
-            { 'name': 'ใต้', 'color': '#ffd6a580', 'geocode': '80;81;82;83;84;85;86;90;91;92;93;94;95;96' },
-            { 'name': 'เหนือ', 'color': '#9bf6ff80', 'geocode': '5_;60;61;62;63;64;65;66;67;' },
-            { 'name': 'ตะวันออกเฉียงเหนือ', 'color': '#bdb2ff80', 'geocode': '30;31;32;33;34;35;36;37;38;39;40;41;42;43;44;45;46' }, //3_;4_  // ใส่ 47, 48, 49 แล้วดำ ๆ
-            { 'name': 'ตะวันออก', 'color': '#a0c4ff80', 'geocode': '20;21;22;23;24;25;27' }
+            { 'name': 'กลาง', 'color': '#ffadadaa', 'pivot': { lat: 14.173590, lon: 100.364376 }, 'geocode': '1_;70;71;72;73;74;75;76;77;26' },
+            { 'name': 'ใต้', 'color': '#ffd6a5aa', 'pivot': { lat: 8.624196, lon: 98.908688 }, 'geocode': '80;81;82;83;84;85;86;90;91;92;93;94;95;96' },
+            { 'name': 'เหนือ', 'color': '#9bf6ffaa', 'pivot': { lat: 17.570455, lon: 99.271237 }, 'geocode': '5_;60;61;62;63;64;65;66;67;' },
+            { 'name': 'ตะวันออกเฉียงเหนือ', 'color': '#bdb2ffaa', 'pivot': { lat: 16.182756, lon: 102.589108 }, 'geocode': '3_;4_' },
+            { 'name': 'ตะวันออก', 'color': '#a0c4ffaa', 'pivot': { lat: 13.330559, lon: 101.633297 }, 'geocode': '20;21;22;23;24;25;27' }
         ]
         function init() {
             map = new longdo.Map({
@@ -108,6 +124,10 @@
                 let object = new longdo.Overlays.Object(element.geocode, 'IG', {
                     title: element.name,
                     label: element.name,
+                    labelOptions: {
+                        draggable: true
+                    },
+                    pivot: element.pivot,
                     lineColor: '#000',
                     lineWidth: 1,
                     fillColor: element.color,
@@ -122,12 +142,24 @@
 <body onload="init();">
     <div id="map"></div>
     <div id="buttonArea">
-        <a class="bn3637 bn37" onclick="createdRegion(region_geographical)">6 ภูมิภาค (ภูมิศาสตร์)</a>
+        <a class="bn3637 bn37 active" onclick="createdRegion(region_geographical)">6 ภูมิภาค (ภูมิศาสตร์)</a>
         <a class="bn3637 bn37" onclick="createdRegion(region_political)">4 ภูมิภาค (การเมือง)</a>
         <a class="bn3637 bn37" onclick="createdRegion(region_meteorological)">6 ภูมิภาค
             (อุตุนิยมวิทยา)</a>
         <a class="bn3637 bn37" onclick="createdRegion(region_travel)">5 ภูมิภาค (การท่องเที่ยว)</a>
     </div>
 </body>
+
+<script>
+    var header = document.getElementById("buttonArea");
+    var btns = header.getElementsByClassName("bn37");
+    for (var i = 0; i < btns.length; i++) {
+        btns[i].addEventListener("click", function () {
+            var current = document.getElementsByClassName("active");
+            current[0].className = current[0].className.replace(" active", "");
+            this.className += " active";
+        });
+    }
+</script>
 
 </html>
